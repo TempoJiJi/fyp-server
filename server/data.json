@@ -1,0 +1,43 @@
+{
+	"cup": [
+		{
+			"cupID": "cup001",
+			"beacon": [
+				{
+					"beaconUUID": "c1b7cba27177",
+					"distance": 7.5690214550017965
+				},
+				{
+					"beaconUUID": "c980f24393bc",
+					"distance": 0.10674893614129219
+				},
+				{
+					"beaconUUID": "c2162e97e554",
+					"distance": 0.0777236548962966
+				},
+				{
+					"beaconUUID": "c303690607af",
+					"distance": 2.721193816594935
+				},
+				{
+					"beaconUUID": "f827312baec5",
+					"distance": 6.807792007496737
+				},
+				{
+					"beaconUUID": "d4c3411de86a",
+					"distance": 2.44618147046074
+				}
+			],
+			"table": "c2162e97e554"
+		},
+		{
+			"cupID": "cup002",
+			"beacon": [
+				{
+					"beaconUUID": "c1b7cba27177",
+					"distance": 10000
+				}
+			]
+		}
+	]
+}

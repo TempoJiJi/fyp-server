@@ -1,0 +1,28 @@
+{
+  "name": "smartcup",
+  "version": "1.0.0",
+  "description": "smart cup project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tundergod/smartcup.git"
+  },
+  "author": "tundergod",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tundergod/smartcup/issues"
+  },
+  "homepage": "https://github.com/tundergod/smartcup#readme",
+  "devDependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.2",
+    "fs": "0.0.1-security",
+    "noble": "^1.8.1",
+    "request": "^2.81.0",
+    "socket.io": "^1.7.3"
+  },
+  "dependencies": {}
+}
