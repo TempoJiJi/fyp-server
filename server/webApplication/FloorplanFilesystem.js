@@ -55,7 +55,7 @@ FloorplanFilesystem.prototype.remove = function(cup_id, current)
 	var data = JSON.parse(items);
 	for (var i = 0; i < data.nodeDataArray.length; i++){
 		if (i == current) continue;
-		var notes = data.nodeDataArray[i].notes.split("\n");
+		var notes = data.nodeDataArray[i].notes.toString().split("\n");
 		for (var j = 1; j < notes.length; j++) {
 			if (notes[j] == cup_id) {
 				// Remove the cup_id from the notes
@@ -77,7 +77,7 @@ FloorplanFilesystem.prototype.service = function(cup_id, beacon_id, cup_info)
 	var data = JSON.parse(items);
 	
 	for (var i = 0; i < data.nodeDataArray.length; i++){
-		var notes = data.nodeDataArray[i].notes.split("\n"); //split notes
+		var notes = data.nodeDataArray[i].notes.toString().split("\n"); //split notes
 		if (notes[0] == beacon_id) {	// Table found
 			var flag = 0;
 			// Check the cup is exist on the table or not

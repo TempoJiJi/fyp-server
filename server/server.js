@@ -86,3 +86,12 @@ server.listen(3000, '0.0.0.0', function() {
     console.log('Server Start!')
     console.log('Listening port 3000......')
 })
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}

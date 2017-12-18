@@ -5,15 +5,15 @@
 			"beacon": [
 				{
 					"beaconUUID": "c1b7cba27177",
-					"distance": 7.5690214550017965
+					"distance": 0.06499163752693395
 				},
 				{
 					"beaconUUID": "c980f24393bc",
-					"distance": 0.10674893614129219
+					"distance": 0.006236344683612513
 				},
 				{
 					"beaconUUID": "c2162e97e554",
-					"distance": 0.0777236548962966
+					"distance": 0.16647738509894744
 				},
 				{
 					"beaconUUID": "c303690607af",
@@ -28,7 +28,7 @@
 					"distance": 2.44618147046074
 				}
 			],
-			"table": "c2162e97e554"
+			"table": "c980f24393bc"
 		},
 		{
 			"cupID": "cup002",
