@@ -5,30 +5,30 @@
 			"beacon": [
 				{
 					"beaconUUID": "c1b7cba27177",
-					"distance": 0.06499163752693395
+					"distance": 3.189957034776568
 				},
 				{
 					"beaconUUID": "c980f24393bc",
-					"distance": 0.006236344683612513
+					"distance": 0.8284008198679865
 				},
 				{
 					"beaconUUID": "c2162e97e554",
-					"distance": 0.16647738509894744
+					"distance": 1.1413589111185052
 				},
 				{
 					"beaconUUID": "c303690607af",
-					"distance": 2.721193816594935
+					"distance": 0.4291798030329189
 				},
 				{
 					"beaconUUID": "f827312baec5",
-					"distance": 6.807792007496737
+					"distance": 0.733792378742723
 				},
 				{
 					"beaconUUID": "d4c3411de86a",
-					"distance": 2.44618147046074
+					"distance": 0.7441777589147022
 				}
 			],
-			"table": "c980f24393bc"
+			"table": "c303690607af"
 		},
 		{
 			"cupID": "cup002",

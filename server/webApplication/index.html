@@ -259,6 +259,7 @@
 			socket = io.connect();
 			socket.on('Update', function(cup_id, beacon_id, cup_info){
 				console.log(cup_id + ' belongs to '+beacon_id);
+                                console.log("cup_info = " + cup_info);
 				filesystem.service(cup_id, beacon_id, cup_info);
 			});
 		}

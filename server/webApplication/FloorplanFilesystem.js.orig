@@ -5,7 +5,7 @@
 * Floorplan Filesystem Class
 * Handles Floorplan-specific saving / loading model data events
 * Attached to a specific instance of Floorplan (via constructor); can be assigned to Floorplan.floorplanFilesystem
-* Currently only supports saving / loading from localstorage
+* Currently only supports saving / loading from localstorage 
 */
 
 /*
@@ -30,154 +30,123 @@ function FloorplanFilesystem(floorplan, state) {
         "unitsAbbreviation": "cm",
         "gridSize": 10,
         "wallWidth": 5,
-        "preferences":
-        {
-            showWallGuidelines:true,
-            showWallLengths:true,
-            showWallAngles:true,
-            showOnlySmallWallAngles:true,
-            showGrid:true,
-            gridSnap:true
+        "preferences": {
+            showWallGuidelines: true,
+            showWallLengths: true,
+            showWallAngles: true,
+            showOnlySmallWallAngles: true,
+            showGrid: true,
+            gridSnap: true
         }
     };
     this._state = state;
 }
 
-FloorplanFilesystem.prototype.update = function(i, cup, info, notes, text)
+FloorplanFilesystem.prototype.update = function(i, cup, notes, text)
 {
-    this.floorplan.model.setDataProperty(this.floorplan.model.nodeDataArray[i], "cup", cup);
-    this.floorplan.model.setDataProperty(this.floorplan.model.nodeDataArray[i], "notes", notes);
-    this.floorplan.model.setDataProperty(this.floorplan.model.nodeDataArray[i], "text", text);
-    this.floorplan.model.setDataProperty(this.floorplan.model.nodeDataArray[i], "info", info);
+	this.floorplan.model.setDataProperty(this.floorplan.model.nodeDataArray[i], "cup", cup);
+	this.floorplan.model.setDataProperty(this.floorplan.model.nodeDataArray[i], "notes", notes);
+	this.floorplan.model.setDataProperty(this.floorplan.model.nodeDataArray[i], "text", text);
+	this.floorplan.model.setDataProperty(this.floorplan.model.nodeDataArray[i], "info", info);
 }
 
 FloorplanFilesystem.prototype.remove = function(cup_id, current)
 {
     var items = window.localStorage.getItem(this.getCurrentFileName());
-    var data = JSON.parse(items);
-    for (var i = 0; i < data.nodeDataArray.length; i++) {
-        if (i == current) continue;
-        var notes = data.nodeDataArray[i].notes.toString().split("\n");
-        for (var j = 1; j < notes.length; j++) {
-            var cupID = notes[j].split(" ");
-            if (cupID[0] == cup_id) {
-                // Remove the cup_id from the notes
-                notes.splice(j, 1);
-                var cup = data.nodeDataArray[i].cup - 1;
-                var info = data.nodeDataArray[i].info;
-                if (cupID.length == 2)
-                    info = info - 1;
-                var text = cup + "-" + info;
-                this.update(i, cup, info, notes, text);
-                return;
-            }
-        }
-    }
+	var data = JSON.parse(items);
+	for (var i = 0; i < data.nodeDataArray.length; i++){
+		if (i == current) continue;
+		var notes = data.nodeDataArray[i].notes.toString().split("\n");
+		for (var j = 1; j < notes.length; j++) {
+			if (notes[j] == cup_id) {
+				// Remove the cup_id from the notes
+				notes.splice(j, 1);
+				var cup = data.nodeDataArray[i].cup - 1;
+				var text = data.nodeDataArray[i].text.split("-");
+				text[0]--;
+				text[1]--;
+				this.update(i, cup, notes, text);
+				return;
+			}
+		}
+	}
 }
 
 FloorplanFilesystem.prototype.service = function(cup_id, beacon_id, cup_info)
 {
-    var items = window.localStorage.getItem(this.getCurrentFileName());
-    var data = JSON.parse(items);
-    var j;
+	var items = window.localStorage.getItem(this.getCurrentFileName());
+	var data = JSON.parse(items);	
 
-    for (var i = 0; i < data.nodeDataArray.length; i++) {
-        var notes = data.nodeDataArray[i].notes.toString().split("\n"); //split notes
+	for (var i = 0; i < data.nodeDataArray.length; i++){
+		var notes = data.nodeDataArray[i].notes.toString().split("\n"); //split notes
         var info;
         var new_notes;
-        if (notes[0] == beacon_id) {	// Table found
-            var flag = 0;
-            // Check the cup is exist on the table or not
-            for (j = 1; j < notes.length; j++) {
+		if (notes[0] == beacon_id) {	// Table found
+			var flag = 0;
+			// Check the cup is exist on the table or not
+			for (var j = 1; j < notes.length; j++) {
                 var cupID = notes[j].split(" ");
-                if (cup_id ==  cupID[0])
-                    flag = 1;
-            }
-            if (flag == 0) {
-                var cup = data.nodeDataArray[i].cup + 1;
-                info = data.nodeDataArray[i].info;
-                if (cup_info == 0) {
-                    new_notes = data.nodeDataArray[i].notes + "\n" + cup_id + " Finish";
-                    info = info + 1;
-                }
-                if (cup_info == 1)
-                    new_notes = data.nodeDataArray[i].notes + "\n" + cup_id;
-                var text = cup + "-" + info;
-                ///////////////////////////
-                this.remove(cup_id, i);
-                this.update(i, cup, info, new_notes, text);
-            }
-            if (flag == 1) {
-                var cup = data.nodeDataArray[i].cup;
+				if (cup_id ==  cupID) 
+					flag = 1;
+			}
+			if (flag == 0) {
+				var cup = data.nodeDataArray[i].cup + 1;
+				new_notes = data.nodeDataArray[i].notes + "\n" + cup_id;
+				//TODO: update cup info here/////////////////
+				var text = cup + "-0";
+				///////////////////////////
+				this.remove(cup_id, i);
+				this.update(i, cup, new_notes, text);
+			}
+			if (flag == 1) {
                 var notes_info = notes[j-1].split(" ");
-                var notes_updated = "";
-                var change = 0;
-                new_notes = data.nodeDataArray[i].notes.split("\n");
                 // Finish
-                if (cup_info == 0) {
+				if (cup_info == 0) {
                     // Add Finish if non existed
                     if (notes_info.length == 1) {
+                        new_notes = data.nodeDataArray[i].notes;
                         new_notes[j-1] = new_notes[j-1] + " Finish";
-                        info = data.nodeDataArray[i].info + 1;
-                        var text = cup + "-" + info;
-                        change = 1;
+                        info = data.nodeDataArray[i].info + 1;        
                     }
                 }
                 // No Finish
                 else if (cup_info == 1) {
                     // Remove Finish if existed
                     if (notes_info.length == 2) {
+                        new_notes = data.nodeDataArray[i].notes;
                         new_notes[j-1] = cup_id;
-                        info = data.nodeDataArray[i].info - 1;
-                        var text = cup + "-" + info;
-                        change = 1;
+                        info = data.nodeDataArray[i].info - 1;        
                     }
                 }
-                // Combine the new_notes to one string
-                console.log("Notes.length = " + new_notes.length);
                 for (var k = 0; k < new_notes.length; k++) {
-                    if (k == 0)
-                        notes_updated += new_notes[k];
-                    else
-                        notes_updated += ("\n" + new_notes[k]);
+                    
                 }
-                console.log("Notes_updated = " + notes_updated);
-                console.log("Change = "+ change);
-                if (change == 1)
-                    this.update(i, cup, info, notes_updated, text);
-            }
-            break;	//Update done
-        }
-    }
-    window.localStorage.setItem(this.getCurrentFileName(), this.floorplan.model.toJson());
+			}
+
+			break;	//Update done
+		}
+	}	
+	window.localStorage.setItem(this.getCurrentFileName(), this.floorplan.model.toJson());
 }
 
 // Get the Floorplan associated with this Floorplan Filesystem
 Object.defineProperty(FloorplanFilesystem.prototype, "floorplan", {
-get: function () {
-        return this._floorplan;
-    }
+    get: function () { return this._floorplan; }
 });
 
-// Get constant name for an unsaved Floorplan
+// Get constant name for an unsaved Floorplan 
 Object.defineProperty(FloorplanFilesystem.prototype, "UNSAVED_FILENAME", {
-get: function () {
-        return this._UNSAVED_FILENAME;
-    }
+    get: function () { return this._UNSAVED_FILENAME; }
 });
 
 // Get constant default model data (default Floorplan model data for a new Floorplan)
 Object.defineProperty(FloorplanFilesystem.prototype, "DEFAULT_MODELDATA", {
-get: function () {
-        return this._DEFAULT_MODELDATA;
-    }
+    get: function () { return this._DEFAULT_MODELDATA; }
 });
 
 // Get state information about this app's UI
 Object.defineProperty(FloorplanFilesystem.prototype, "state", {
-get: function () {
-        return this._state;
-    }
+    get: function () { return this._state; }
 });
 
 /*
@@ -270,7 +239,7 @@ FloorplanFilesystem.prototype.saveFloorplan = function () {
 // Save floor plan to local storage with a new name (File -> Save As)
 FloorplanFilesystem.prototype.saveFloorplanAs = function () {
     if (checkLocalStorage()) {
-
+		
         var saveName = prompt("Save file as...", this.getCurrentFileName());
         // if saveName is already in list of files, ask if overwrite is ok
         if (saveName && saveName !== this.UNSAVED_FILENAME) {
@@ -308,7 +277,7 @@ FloorplanFilesystem.prototype.loadFloorplan = function () {
 FloorplanFilesystem.prototype.loadFloorplanFromModel = function (str) {
     var floorplan = this.floorplan;
     floorplan.model = go.Model.fromJson(str);
-    console.log(floorplan);
+	console.log(floorplan);	
     floorplan.skipsUndoManager = true;
     floorplan.startTransaction("generate walls");
     floorplan.nodes.each(function (node) {

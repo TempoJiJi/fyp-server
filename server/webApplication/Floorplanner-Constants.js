@@ -82,6 +82,7 @@ FURNITURE_NODE_DATA_ARRAY = [
 				  shape: "Rectangle",
 				  text: "0-0",
 				  cup: 0,
+                  info: 0,
 				  width: 60,
 				  height: 60,
 				  notes: ""

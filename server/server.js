@@ -74,7 +74,7 @@ app.put('/', function(request, response, next) {
     var table = clustering.clustering()
     store.storeTable(cupData, table)
 
-	var cup_info = 0;
+	var cup_info = cupData.water;
 
 	console.log('Sending data to webApp now...');
 	io.emit('Update', cup_id, table, cup_info);
